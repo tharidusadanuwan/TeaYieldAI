@@ -3,6 +3,8 @@ import gc
 
 import torch
 
+torch.set_num_threads(1)
+
 from torchvision import transforms
 
 from PIL import Image
