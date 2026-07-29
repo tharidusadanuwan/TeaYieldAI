@@ -3,12 +3,9 @@ import joblib
 
 import pandas as pd
 
-
 from sklearn.ensemble import RandomForestRegressor
 
-
 from sklearn.model_selection import train_test_split
-
 
 from sklearn.metrics import mean_absolute_error
 
@@ -28,8 +25,6 @@ MODEL_PATH = os.path.join(
 
 
 
-
-
 # =====================================
 # Create Risk Model
 # =====================================
@@ -41,7 +36,7 @@ def create_risk_model():
     """
     Train AI Risk Prediction Model
 
-    Dataset columns:
+    Features:
 
     nitrogen
     phosphorus
@@ -54,12 +49,12 @@ def create_risk_model():
     disease_score
     fertilizer_days
 
+
     Output:
 
     risk_score
 
     """
-
 
 
 
@@ -87,11 +82,13 @@ def create_risk_model():
 
 
 
+
     data = pd.read_csv(
 
         dataset_path
 
     )
+
 
 
 
@@ -132,6 +129,8 @@ def create_risk_model():
 
 
 
+
+
     model = RandomForestRegressor(
 
         n_estimators=100,
@@ -139,6 +138,9 @@ def create_risk_model():
         random_state=42
 
     )
+
+
+
 
 
 
@@ -158,11 +160,15 @@ def create_risk_model():
 
 
 
+
+
     prediction = model.predict(
 
         X_test
 
     )
+
+
 
 
 
@@ -178,6 +184,7 @@ def create_risk_model():
 
 
 
+
     print(
 
         "Risk Model MAE:",
@@ -185,6 +192,8 @@ def create_risk_model():
         error
 
     )
+
+
 
 
 
@@ -206,7 +215,7 @@ def create_risk_model():
 
     print(
 
-        "Risk model saved"
+        "Risk model saved successfully"
 
     )
 
@@ -215,6 +224,9 @@ def create_risk_model():
 
 
 
-if __name__=="__main__":
+
+
+if __name__ == "__main__":
+
 
     create_risk_model()

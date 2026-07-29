@@ -4,6 +4,11 @@ import os
 
 
 
+# =========================================
+# Model Path
+# =========================================
+
+
 BASE_DIR = os.path.dirname(__file__)
 
 
@@ -14,9 +19,44 @@ MODEL_PATH = os.path.join(
 
 
 
-model = joblib.load(
-    MODEL_PATH
-)
+
+
+# =========================================
+# Lazy Model Loading
+# =========================================
+
+
+model = None
+
+
+
+def get_model():
+
+    global model
+
+
+    if model is None:
+
+
+        print(
+            "Loading Fertilizer AI Model..."
+        )
+
+
+        model = joblib.load(
+            MODEL_PATH
+        )
+
+
+        print(
+            "Fertilizer AI Model Loaded Successfully"
+        )
+
+
+
+    return model
+
+
 
 
 
@@ -188,6 +228,14 @@ def calculate_application_time(data):
 def predict_fertilizer(data):
 
 
+    # Load model only when required
+
+    fertilizer_model = get_model()
+
+
+
+
+
     input_data = pd.DataFrame([
 
         {
@@ -269,9 +317,11 @@ def predict_fertilizer(data):
 
 
 
+
     # ML Prediction
 
-    prediction = model.predict(
+
+    prediction = fertilizer_model.predict(
 
         input_data
 
@@ -281,7 +331,7 @@ def predict_fertilizer(data):
 
 
 
-    confidence = model.predict_proba(
+    confidence = fertilizer_model.predict_proba(
 
         input_data
 
@@ -305,7 +355,10 @@ def predict_fertilizer(data):
 
 
 
+
+
     # Dynamic calculation
+
 
     amount = calculate_fertilizer_amount(
 

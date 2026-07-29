@@ -1,6 +1,9 @@
 import os
+import gc
 
 import torch
+
+torch.set_num_threads(1)
 
 from torchvision import transforms
 
@@ -31,42 +34,101 @@ MODEL_PATH = os.path.join(
 
 
 # =====================================
-# Load Trained Model
+# Lazy Model Loading
 # =====================================
 
 
-checkpoint = torch.load(
-    MODEL_PATH,
-    map_location="cpu"
-)
+model = None
 
-
-
-CLASS_NAMES = checkpoint["classes"]
-
-
-
-print(
-    "Loaded Disease Classes:",
-    CLASS_NAMES
-)
+CLASS_NAMES = None
 
 
 
 
-model = DiseaseModel(
-    num_classes=len(CLASS_NAMES)
-)
+
+def get_model():
+
+
+    global model
+
+    global CLASS_NAMES
 
 
 
-model.load_state_dict(
-    checkpoint["model"]
-)
+    if model is None:
+
+
+        try:
+
+
+            print(
+                "Loading Disease AI Model..."
+            )
 
 
 
-model.eval()
+            checkpoint = torch.load(
+
+                MODEL_PATH,
+
+                map_location="cpu"
+
+            )
+
+
+
+            CLASS_NAMES = checkpoint["classes"]
+
+
+
+            print(
+                "Loaded Disease Classes:",
+                CLASS_NAMES
+            )
+
+
+
+            model = DiseaseModel(
+
+                num_classes=len(CLASS_NAMES)
+
+            )
+
+
+
+            model.load_state_dict(
+
+                checkpoint["model"]
+
+            )
+
+
+
+            model.eval()
+
+
+
+            print(
+                "Disease Model Loaded Successfully"
+            )
+
+
+
+        except Exception as error:
+
+
+            print(
+                "Disease Model Loading Error:",
+                error
+            )
+
+
+            raise error
+
+
+
+
+    return model
 
 
 
@@ -81,32 +143,47 @@ model.eval()
 
 transform = transforms.Compose([
 
+
     transforms.Resize(
+
         (224,224)
+
     ),
+
 
 
     transforms.ToTensor(),
 
 
+
     transforms.Normalize(
 
         mean=[
+
             0.485,
+
             0.456,
+
             0.406
+
         ],
 
 
         std=[
+
             0.229,
+
             0.224,
+
             0.225
+
         ]
 
     )
 
+
 ])
+
 
 
 
@@ -122,56 +199,50 @@ transform = transforms.Compose([
 
 
 def predict_disease(
+
     image_path:str
+
 ):
 
 
-    image = Image.open(
-        image_path
-    ).convert(
-        "RGB"
-    )
+    global CLASS_NAMES
 
 
 
-    image = transform(
-        image
-    )
+    # Load model only when needed
 
-
-
-    image = image.unsqueeze(
-        0
-    )
+    model = get_model()
 
 
 
 
 
-    with torch.no_grad():
+    try:
 
 
-        output = model(
+        image = Image.open(
+
+            image_path
+
+        ).convert(
+
+            "RGB"
+
+        )
+
+
+
+        image = transform(
+
             image
-        )
-
-
-
-        probabilities = torch.softmax(
-
-            output,
-
-            dim=1
 
         )
 
 
 
-        confidence, predicted = torch.max(
+        image = image.unsqueeze(
 
-            probabilities,
-
-            dim=1
+            0
 
         )
 
@@ -179,59 +250,117 @@ def predict_disease(
 
 
 
-    disease = CLASS_NAMES[
-        predicted.item()
-    ]
+        with torch.inference_mode():
 
 
 
-    confidence_score = round(
+            output = model(
 
-        confidence.item() * 100,
+                image
 
-        2
-
-    )
+            )
 
 
 
+            probabilities = torch.softmax(
 
+                output,
 
-    # Debug output
+                dim=1
 
-    print(
-        "Prediction:",
-        disease,
-        "Confidence:",
-        confidence_score
-    )
+            )
 
 
 
+            confidence, predicted = torch.max(
+
+                probabilities,
+
+                dim=1
+
+            )
 
 
 
-    return {
-
-
-        "disease_name":
-
-        disease,
 
 
 
-        "confidence":
 
-        confidence_score,
+        disease = CLASS_NAMES[
 
+            predicted.item()
 
-
-        "treatment":
-
-        get_treatment(disease)
+        ]
 
 
-    }
+
+
+
+        confidence_score = round(
+
+            confidence.item() * 100,
+
+            2
+
+        )
+
+
+
+
+
+
+
+        print(
+
+            "Prediction:",
+
+            disease,
+
+            "Confidence:",
+
+            confidence_score
+
+        )
+
+
+
+
+
+
+        return {
+
+
+            "disease_name":
+
+            disease,
+
+
+
+            "confidence":
+
+            confidence_score,
+
+
+
+            "treatment":
+
+            get_treatment(disease)
+
+
+        }
+
+
+
+
+
+    finally:
+
+
+        # Clear temporary tensors
+
+        gc.collect()
+
+
 
 
 
@@ -247,7 +376,9 @@ def predict_disease(
 
 
 def get_treatment(
+
     disease:str
+
 ):
 
 
@@ -260,9 +391,11 @@ def get_treatment(
 
 
 
+
         "blister_blight":
 
         "Apply recommended fungicide, improve air circulation and remove infected leaves.",
+
 
 
 
@@ -272,9 +405,11 @@ def get_treatment(
 
 
 
+
         "grey_blight":
 
         "Reduce humidity, improve field ventilation and apply fungicide.",
+
 
 
 
@@ -282,7 +417,10 @@ def get_treatment(
 
         "Apply copper-based fungicide and maintain proper soil nutrients."
 
+
     }
+
+
 
 
 
