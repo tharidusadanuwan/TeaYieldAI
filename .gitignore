@@ -1,21 +1,31 @@
 # Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+
+# Virtual Environment
+venv/
 .venv/
 
-# Environment
+# Environment variables
 .env
+
+# Database
+*.db
 
 # AI Models
 *.pth
 *.pkl
 
-# AI datasets
+# Dataset
 ai/disease/dataset/
-
-# Generated files
-uploads/
-*.csv
 
 # Logs
 *.log
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
