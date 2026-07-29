@@ -224,13 +224,6 @@ def create_risk_model():
 
 
 
-<<<<<<< HEAD
-
-
-if __name__ == "__main__":
-
-=======
->>>>>>> 2e3ae69c274722b4b6169302e6ea211e82cda566
 
 
 if __name__ == "__main__":

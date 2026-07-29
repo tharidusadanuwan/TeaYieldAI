@@ -10,6 +10,7 @@ from database import Base, engine
 
 
 
+
 # ==========================
 # Routers
 # ==========================
@@ -30,12 +31,6 @@ from routers import disease
 from routers import yield_records
 
 from routers import ai_prediction
-
-from routers import fertilizer_ai
-
-from routers import disease_ai
-
-from routers import risk_analysis
 
 from routers import dashboard
 
@@ -106,6 +101,8 @@ app.add_middleware(
     allow_headers=["*"]
 
 )
+
+
 
 
 
@@ -220,30 +217,6 @@ app.include_router(
 
 app.include_router(
 
-    fertilizer_ai.router
-
-)
-
-
-
-app.include_router(
-
-    disease_ai.router
-
-)
-
-
-
-app.include_router(
-
-    risk_analysis.router
-
-)
-
-
-
-app.include_router(
-
     dashboard.router
 
 )
@@ -284,6 +257,8 @@ app.mount(
     name="uploads"
 
 )
+
+
 
 
 
