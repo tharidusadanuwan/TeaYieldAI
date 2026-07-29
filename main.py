@@ -5,7 +5,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 
-
 from database import Base, engine
 
 
@@ -42,16 +41,6 @@ from routers import dashboard
 
 from routers import user
 
-# ==========================
-# Schedulers
-# ==========================
-
-
-from jobs.weather_scheduler import start_scheduler
-
-from ai.scheduler import start_prediction_scheduler
-
-from ai.risk.risk_scheduler import start_risk_scheduler
 
 
 
@@ -132,22 +121,25 @@ app.add_middleware(
 
 
 @app.on_event("startup")
+
 def startup_event():
 
-    print(
-        "Starting TeaYield AI API..."
-    )
-
-
-    # Disable background AI jobs on free hosting
-    # start_scheduler()
-    # start_prediction_scheduler()
-    # start_risk_scheduler()
-
 
     print(
+
         "TeaYield AI API Started Successfully"
+
     )
+
+
+    print(
+
+        "Background AI schedulers disabled for Render free tier"
+
+    )
+
+
+
 
 
 
@@ -167,6 +159,7 @@ app.include_router(
     auth.router
 
 )
+
 
 
 app.include_router(
@@ -248,6 +241,7 @@ app.include_router(
 )
 
 
+
 app.include_router(
 
     dashboard.router
@@ -255,11 +249,18 @@ app.include_router(
 )
 
 
+
 app.include_router(
 
     user.router
 
 )
+
+
+
+
+
+
 
 
 
