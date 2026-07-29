@@ -1,26 +1,21 @@
 # Python
 __pycache__/
-*.py[cod]
-*.pyo
-
-# Virtual environments
-venv/
+*.pyc
 .venv/
 
-# Environment variables
+# Environment
 .env
 
-# IDE
-.vscode/
-.idea/
+# AI Models
+*.pth
+*.pkl
 
-# Uploaded files
+# AI datasets
+ai/disease/dataset/
+
+# Generated files
 uploads/
+*.csv
 
-# Python cache
-.pytest_cache/
-.mypy_cache/
-
-# OS files
-.DS_Store
-Thumbs.db
+# Logs
+*.log
