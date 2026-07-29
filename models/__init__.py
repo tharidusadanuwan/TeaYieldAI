@@ -1,0 +1,1 @@
+from models.fertilizer_recommendation import FertilizerRecommendation
