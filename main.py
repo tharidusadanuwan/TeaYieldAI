@@ -132,36 +132,21 @@ app.add_middleware(
 
 
 @app.on_event("startup")
-
 def startup_event():
 
-
     print(
-        "Starting TeaYield AI Services..."
+        "Starting TeaYield AI API..."
     )
 
 
-
-    # Weather Data Scheduler
-
-    start_scheduler()
-
-
-
-    # AI Yield Prediction Scheduler
-
-    start_prediction_scheduler()
-
-
-
-    # AI Risk Analysis Scheduler
-
-    start_risk_scheduler()
-
+    # Disable background AI jobs on free hosting
+    # start_scheduler()
+    # start_prediction_scheduler()
+    # start_risk_scheduler()
 
 
     print(
-        "All AI Services Started Successfully"
+        "TeaYield AI API Started Successfully"
     )
 
 
