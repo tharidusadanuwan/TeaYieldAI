@@ -31,42 +31,79 @@ MODEL_PATH = os.path.join(
 
 
 # =====================================
-# Load Trained Model
+# Lazy Model Loading
 # =====================================
 
 
-checkpoint = torch.load(
-    MODEL_PATH,
-    map_location="cpu"
-)
+model = None
+
+CLASS_NAMES = None
 
 
 
-CLASS_NAMES = checkpoint["classes"]
+def get_model():
+
+    global model
+    global CLASS_NAMES
 
 
 
-print(
-    "Loaded Disease Classes:",
-    CLASS_NAMES
-)
+    if model is None:
+
+
+        print(
+            "Loading Disease AI Model..."
+        )
+
+
+        checkpoint = torch.load(
+
+            MODEL_PATH,
+
+            map_location="cpu"
+
+        )
 
 
 
-
-model = DiseaseModel(
-    num_classes=len(CLASS_NAMES)
-)
+        CLASS_NAMES = checkpoint["classes"]
 
 
 
-model.load_state_dict(
-    checkpoint["model"]
-)
+        print(
+            "Loaded Disease Classes:",
+            CLASS_NAMES
+        )
 
 
 
-model.eval()
+        model = DiseaseModel(
+
+            num_classes=len(CLASS_NAMES)
+
+        )
+
+
+
+        model.load_state_dict(
+
+            checkpoint["model"]
+
+        )
+
+
+
+        model.eval()
+
+
+
+        print(
+            "Disease Model Loaded Successfully"
+        )
+
+
+
+    return model
 
 
 
