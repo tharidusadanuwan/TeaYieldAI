@@ -5,8 +5,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 
 
-from database import Base, engine
 
+from database import Base, engine
 
 
 
@@ -41,6 +41,17 @@ from routers import risk_analysis
 from routers import dashboard
 
 from routers import user
+
+# ==========================
+# Schedulers
+# ==========================
+
+
+from jobs.weather_scheduler import start_scheduler
+
+from ai.scheduler import start_prediction_scheduler
+
+from ai.risk.risk_scheduler import start_risk_scheduler
 
 
 
@@ -115,8 +126,6 @@ app.add_middleware(
 
 
 
-
-
 # ==========================
 # Startup Events
 # ==========================
@@ -128,20 +137,32 @@ def startup_event():
 
 
     print(
-
-        "TeaYield AI API Started Successfully"
-
+        "Starting TeaYield AI Services..."
     )
+
+
+
+    # Weather Data Scheduler
+
+    start_scheduler()
+
+
+
+    # AI Yield Prediction Scheduler
+
+    start_prediction_scheduler()
+
+
+
+    # AI Risk Analysis Scheduler
+
+    start_risk_scheduler()
+
 
 
     print(
-
-        "Background AI schedulers disabled for Render free tier"
-
+        "All AI Services Started Successfully"
     )
-
-
-
 
 
 
@@ -257,12 +278,6 @@ app.include_router(
 
 
 
-
-
-
-
-
-
 # ==========================
 # Static Files
 # ==========================
@@ -283,8 +298,6 @@ app.mount(
     name="uploads"
 
 )
-
-
 
 
 
