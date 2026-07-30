@@ -105,6 +105,11 @@ app.add_middleware(
 
         "http://127.0.0.1:5173"
 
+
+        # Vercel Production Frontend
+        "https://tea-yield-ai-frontend.vercel.app"
+
+
     ],
 
 
