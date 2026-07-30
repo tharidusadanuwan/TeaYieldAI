@@ -32,10 +32,15 @@ from routers import yield_records
 
 from routers import ai_prediction
 
+from routers import fertilizer_ai
+
+from routers import disease_ai
+
+from routers import risk_analysis
+
 from routers import dashboard
 
 from routers import user
-
 
 
 
@@ -158,7 +163,6 @@ app.include_router(
 )
 
 
-
 app.include_router(
 
     tea_fields.router
@@ -217,10 +221,32 @@ app.include_router(
 
 app.include_router(
 
-    dashboard.router
+    fertilizer_ai.router
 
 )
 
+
+
+app.include_router(
+
+    disease_ai.router
+
+)
+
+
+
+app.include_router(
+
+    risk_analysis.router
+
+)
+
+
+app.include_router(
+
+    dashboard.router
+
+)
 
 
 app.include_router(
