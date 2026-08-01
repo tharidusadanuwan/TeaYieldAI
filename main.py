@@ -233,11 +233,11 @@ app.include_router(
 
 
 
-app.include_router(
+#app.include_router(
 
-    disease_ai.router
+#    disease_ai.router
 
-)
+#)
 
 
 
