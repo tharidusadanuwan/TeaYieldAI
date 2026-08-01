@@ -142,7 +142,7 @@ def startup_event():
     start_scheduler()
 
     # AI Yield Prediction Scheduler
-    start_prediction_scheduler()
+    #start_prediction_scheduler()
 
     # AI Risk Analysis Scheduler
     start_risk_scheduler()
