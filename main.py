@@ -32,7 +32,7 @@ from routers import yield_records
 
 #from routers import ai_prediction
 
-from routers import fertilizer_ai
+#from routers import fertilizer_ai
 
 from routers import disease_ai
 
@@ -142,7 +142,7 @@ def startup_event():
     start_scheduler()
 
     # AI Yield Prediction Scheduler
-    #start_prediction_scheduler()
+    start_prediction_scheduler()
 
     # AI Risk Analysis Scheduler
     start_risk_scheduler()
@@ -225,11 +225,11 @@ app.include_router(
 
 
 
-app.include_router(
+#app.include_router(
 
-    fertilizer_ai.router
+#    fertilizer_ai.router
 
-)
+#)
 
 
 
