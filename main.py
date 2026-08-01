@@ -36,7 +36,7 @@ from routers import yield_records
 
 #from routers import disease_ai
 
-#from routers import risk_analysis
+from routers import risk_analysis
 
 from routers import dashboard
 
@@ -241,11 +241,11 @@ app.include_router(
 
 
 
-#app.include_router(
+app.include_router(
 
-#   risk_analysis.router
+   risk_analysis.router
 
-#)
+)
 
 
 app.include_router(
