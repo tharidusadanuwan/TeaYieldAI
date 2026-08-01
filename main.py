@@ -105,11 +105,6 @@ app.add_middleware(
 
         "http://127.0.0.1:5173"
 
-
-        # Vercel Production Frontend
-        "https://tea-yield-ai-frontend.vercel.app"
-
-
     ],
 
 
@@ -137,39 +132,24 @@ app.add_middleware(
 
 
 @app.on_event("startup")
-
 def startup_event():
-
 
     print(
         "Starting TeaYield AI Services..."
     )
 
-
-
-    # Weather Data Scheduler
-
+    # Weather Scheduler
     start_scheduler()
 
-
-
     # AI Yield Prediction Scheduler
-
     start_prediction_scheduler()
 
-
-
     # AI Risk Analysis Scheduler
-
     start_risk_scheduler()
-
-
 
     print(
         "All AI Services Started Successfully"
     )
-
-
 
 
 
