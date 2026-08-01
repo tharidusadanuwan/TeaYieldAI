@@ -139,13 +139,13 @@ def startup_event():
     )
 
     # Weather Scheduler
-    #start_scheduler()
+    start_scheduler()
 
     # AI Yield Prediction Scheduler
     #start_prediction_scheduler()
 
     # AI Risk Analysis Scheduler
-    #start_risk_scheduler()
+    start_risk_scheduler()
 
     print(
         "All AI Services Started Successfully"
