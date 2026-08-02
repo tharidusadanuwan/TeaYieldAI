@@ -108,7 +108,12 @@ app.add_middleware(
 
 
 
+@app.get("/cors-test")
+def cors_test():
 
+    return {
+        "message": "CORS test successful"
+    }
 
 
 
