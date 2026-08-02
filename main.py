@@ -260,47 +260,21 @@ app.include_router(
 # Static Files
 # ==========================
 
-
 app.mount(
-
     "/uploads",
-
-
     StaticFiles(
-
         directory="uploads"
-
     ),
-
-
     name="uploads"
-
 )
-
-
-
-
-
-
-
 
 
 # ==========================
 # Root API
 # ==========================
 
-
 @app.get("/")
-
 def root():
-
-
     return {
-
-
-        "message":
-
-        "TeaYield AI Backend Running"
-
-
+        "message": "TeaYield AI Backend Running"
     }
