@@ -34,7 +34,7 @@ from routers import yield_records
 
 #from routers import fertilizer_ai
 
-from routers import disease_ai
+#from routers import disease_ai
 
 from routers import risk_analysis
 
@@ -226,11 +226,11 @@ app.include_router(
 
 
 
-app.include_router(
+#app.include_router(
 
-    disease_ai.router
+#    disease_ai.router
 
-)
+#)
 
 
 
